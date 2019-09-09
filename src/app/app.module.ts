@@ -1,17 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { firebase } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
+import { firebase } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './interface/menu/menu.component';
 import { RodapeComponent } from './interface/rodape/rodape.component';
-import { ContatosComponent } from './pagina/contatos/contatos.component';
-import { ModalComponent } from './pagina/contatos/modal/modal.component';
-import { PageNotFoundComponent } from './interface/page-not-found/page-not-found.component';
-import { HomeComponent } from './interface/home/home.component';
-import { LoginComponent } from './interface/login/login.component';
-import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { ContatosComponent } from './paginas/contatos/contatos.component';
+import { ModalComponent } from './paginas/contatos/modal/modal.component';
+import { PageNotFoundComponent } from './paginas/page-not-found/page-not-found.component';
+import { HomeComponent } from './paginas/home/home.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxAuthFirebaseUIModule.forRoot(firebase)
+    AngularFireModule.initializeApp(firebase),
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
