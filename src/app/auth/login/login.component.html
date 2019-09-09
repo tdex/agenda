@@ -1,20 +1,21 @@
 <div class="container pt-3">
     <div class="row justify-content-sm-center">
       <div class="col-sm-10 col-md-6">
-        <div class="card border-info">
+        <div class="card border-info text-center">
           <div class="card-header">Bem vindo!</div>
           <div class="card-body">
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control mb-2" placeholder="Email" #userEmail required autofocus>
+                <!-- Email e senha -->
+                <!-- <input type="text" class="form-control mb-2" placeholder="Email" #userEmail required autofocus>
                 <input type="password" class="form-control mb-2" placeholder="Password" #userPassword required>
                 <button class="col btn btn-outline-secondary mb-1" (click)="authService.register(userEmail.value, userPassword.value)">Cadastrar</button>
-                <button  class="col btn btn-outline-primary mb-1" (click)="authService.login(userEmail.value, userPassword.value)">Login</button> 
+                <button  class="col btn btn-outline-primary mb-1" (click)="authService.login(userEmail.value, userPassword.value)">Login</button>  -->
 
                 <!--Facebook-->
                 <button type="button" class="col btn btn-primary btn-fb fab fa-facebook-f mb-1" (click)="authService.loginFacebook()"></button>
                 <!--Google-->
-                <button type="button" class="col btn btn-danger btn-gplus fab fa-google mb-1"></button>
+                <button type="button" class="col btn btn-danger btn-gplus fab fa-google mb-1" (click)="authService.loginGoogle()"></button>
               </div>
             </div>
           </div>

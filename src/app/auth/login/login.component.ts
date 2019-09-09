@@ -13,19 +13,4 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  // loginGoogle() {
-  //   const provider = new auth.GoogleAuthProvider();
-
-  //   auth().signInWithPopup(provider).then(res => {
-  //     console.log('usuário logado', res.user);
-
-  //   }).catch(err => console.error(err));
-  // }
-
-  // logOut() {
-  //   auth().signOut().then(() => {
-  //     alert('saiu');
-  //   });
-  // }
-
 }
