@@ -10,6 +10,11 @@
                 <input type="password" class="form-control mb-2" placeholder="Password" #userPassword required>
                 <button class="col btn btn-outline-secondary mb-1" (click)="authService.register(userEmail.value, userPassword.value)">Cadastrar</button>
                 <button  class="col btn btn-outline-primary mb-1" (click)="authService.login(userEmail.value, userPassword.value)">Login</button> 
+
+                <!--Facebook-->
+                <button type="button" class="col btn btn-primary btn-fb fab fa-facebook-f mb-1" (click)="authService.loginFacebook()"></button>
+                <!--Google-->
+                <button type="button" class="col btn btn-danger btn-gplus fab fa-google mb-1"></button>
               </div>
             </div>
           </div>
