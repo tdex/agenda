@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FormsModule } from '@angular/forms';
 
 import { firebase } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +14,7 @@ import { ModalComponent } from './paginas/contatos/modal/modal.component';
 import { PageNotFoundComponent } from './paginas/page-not-found/page-not-found.component';
 import { HomeComponent } from './paginas/home/home.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -26,10 +28,12 @@ import { LoginComponent } from './auth/login/login.component';
     LoginComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

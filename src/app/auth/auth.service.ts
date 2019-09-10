@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from 'firebase';
 
 @Injectable({
@@ -10,7 +11,12 @@ import { User } from 'firebase';
 export class AuthService {
   user: User;
 
-  constructor(public afAuth: AngularFireAuth, public router: Router) {
+  methodType = {
+    'facebook.com': 'Facebook',
+    'google.com': 'Google'
+  };
+
+  constructor(public afAuth: AngularFireAuth, public firestore: AngularFirestore, public router: Router) {
     this.afAuth.auth.languageCode = 'pt';
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -32,13 +38,20 @@ export class AuthService {
 
   async loginFacebook() {
     await this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider()).then(response => {
-      console.log('LogIn com Gacebook', response.user.email);
+      if (response.additionalUserInfo.isNewUser) {
+        this.addUser(response.user, response.additionalUserInfo.providerId);
+      }
+
+      console.log('LogIn com Facebook', response.user.email);
       this.router.navigate(['home']);
     }).catch(error => this.tratarErro(error));
   }
 
   async loginGoogle() {
     await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(response => {
+      if (response.additionalUserInfo.isNewUser) {
+        this.addUser(response.user, response.additionalUserInfo.providerId);
+      }
       console.log('LogIn com Google', response.user.email);
       this.router.navigate(['home']);
     }).catch(error => this.tratarErro(error));
@@ -55,6 +68,22 @@ export class AuthService {
     await this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(() => {
       this.login(email, password);
     }).catch(error => this.tratarErro(error));
+  }
+
+  async addUser(user: User, provider: string) {
+    const dados = {
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      photo: user.photoURL,
+      metodoLogin: provider
+    };
+
+    this.firestore.collection('users').doc(user.email).set(dados).then(res => {
+      console.log('adicionou user', res);
+    }).catch(e => {
+      console.error('Erro ao cadastrar novo usuário', e);
+    });
   }
 
   get isLoggedIn(): boolean {
@@ -76,7 +105,10 @@ export class AuthService {
         alert('Usuário não encontrado');
         break;
       case 'auth/account-exists-with-different-credential':
-        alert('Já existe uma conta com esse e-mail');
+        this.afAuth.auth.fetchSignInMethodsForEmail(e.email).then(res => {
+          const method = this.methodType[res[0]];
+          alert(`Já existe uma conta com esse e-mail. Tente entrar novamente com o ${method}!`);
+        });
         break;
       case 'auth/email-already-in-use':
         alert('E-mail já cadastrado. Por favor realize o LogIn');
