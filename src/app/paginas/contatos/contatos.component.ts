@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Contatos } from 'src/app/model/contatos.model';
+import { Contato } from 'src/app/model/contato.model';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Endereco } from 'src/app/model/endereco.model';
 
 @Component({
   selector: 'app-contatos',
@@ -7,20 +9,32 @@ import { Contatos } from 'src/app/model/contatos.model';
   styleUrls: ['./contatos.component.scss']
 })
 export class ContatosComponent implements OnInit {
-  novo = {
-    nome: '',
-    telefone: '',
-    endereco: {
-      logradouro: '',
-      cidade: '',
-      estado: '',
-      cep: ''
-    }
-  };
+  formContato: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.createForm(new Contato());
+  }
+
+  createForm(contato: Contato) {
+    contato.endereco = new Endereco();
+    this.formContato = this.formBuilder.group({
+      nome: [contato.nome],
+      photo: [contato.photo],
+      telefone: [contato.telefone],
+      endereco: this.formBuilder.group({
+        logradouro: [contato.endereco.logradouro],
+        cidade: [contato.endereco.cidade],
+        estado: [contato.endereco.estado],
+        cep: [contato.endereco.cep]
+      })
+    });
+  }
+
+  cadastrar() {
+    console.log(this.formContato.value);
+    this.createForm(new Contato());
   }
 
 }

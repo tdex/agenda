@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -16,7 +17,7 @@ export class AuthService {
     'google.com': 'Google'
   };
 
-  constructor(public afAuth: AngularFireAuth, public firestore: AngularFirestore, public router: Router) {
+  constructor(public afAuth: AngularFireAuth, public firestore: AngularFirestore, public router: Router, public location: Location) {
     this.afAuth.auth.languageCode = 'pt';
     this.afAuth.authState.subscribe(user => {
       if (user) {
