@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './paginas/page-not-found/page-not-found.component';
-import { HomeComponent } from './paginas/home/home.component';
-import { ContatosComponent } from './paginas/contatos/contatos.component';
-import { LoginComponent } from './auth/login/login.component';
-import { AdminGuard } from './admin/admin.guard';
+import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
+import { HomeComponent } from './views/home/home.component';
+import { ContatosComponent } from './views/contatos/contatos.component';
+import { LoginComponent } from './views/login/login.component';
+import { AdminGuard } from './services/admin/admin.guard';
 
 const routes: Routes = [
   {
