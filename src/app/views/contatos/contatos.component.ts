@@ -3,6 +3,7 @@ import { Contato } from 'src/app/model/contato.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Endereco } from 'src/app/model/endereco.model';
 import { ContatoService } from 'src/app/services/contato/contato.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contatos',
@@ -11,14 +12,14 @@ import { ContatoService } from 'src/app/services/contato/contato.service';
 })
 export class ContatosComponent implements OnInit {
   formContato: FormGroup;
-  contatoList: Contato[];
+  contatoList: Observable<any[]>;
 
-  constructor(private formBuilder: FormBuilder, private contatoService: ContatoService) { }
-
-  ngOnInit() {
+  constructor(private formBuilder: FormBuilder, private contatoService: ContatoService) {
     this.createForm(new Contato());
     this.getContatos();
   }
+
+  ngOnInit() { }
 
   createForm(contato: Contato) {
     contato.endereco = new Endereco();

@@ -2,34 +2,30 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Contato } from 'src/app/model/contato.model';
 import { AuthService } from '../auth/auth.service';
-import { debug } from 'util';
+import { User } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContatoService {
+  user: User;
 
-  constructor(public firestore: AngularFirestore, public authService: AuthService) { }
+  constructor(public firestore: AngularFirestore, public authService: AuthService) {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
 
   async addContato(contato: Contato) {
-    await this.firestore.collection('agenda').doc(this.authService.user.email).collection('contatos').add(contato).then(res => {
+    await this.firestore.collection('agenda').doc(this.user.email).collection('contatos').add(contato).then(res => {
       console.log('adicionado contato no firebase');
     }).catch(e => {
       console.error('Erro ao cadastrar contato', e);
     });
   }
 
+  /**
+   * Observa alterações na lista de contatos do usuário logado
+   */
   async getContatos() {
-    const dados = [];
-    await this.firestore.collection('agenda').doc('tardchamps94@gmail.com').collection('contatos').get().forEach(item => {
-
-      item.docs.map(contato => {
-        console.log(contato.data());
-        dados.push(contato.data());
-      });
-
-    });
-
-    return dados;
+    return this.firestore.collection('agenda').doc(this.user.email).collection('contatos').valueChanges();
   }
 }

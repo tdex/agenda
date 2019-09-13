@@ -47,17 +47,18 @@
 
 
 <div class="accordion" id="accordionExample">
-    <div class="card" *ngFor="let item of contatoList; let i = index">
-        <div class="card-header" id="headingOne">
+    <div class="card" *ngFor="let item of contatoList | async; let i = index">
+        <div class="card-header" [id]="i">
             <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
+                <!-- <img src="..." alt="..." class="rounded-circle"> -->
+                <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#card{{i}}"
+                    aria-expanded="true" attr.aria-controls="card{{i}}">
                     {{item.nome}}
                 </button>
             </h2>
         </div>
 
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div id="card{{i}}" class="collapse" attr.aria-labelledby="card{{i}}" data-parent="#accordionExample">
             <div class="card-body">
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
                 moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
