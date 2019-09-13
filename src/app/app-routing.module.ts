@@ -5,6 +5,7 @@ import { HomeComponent } from './views/home/home.component';
 import { ContatosComponent } from './views/contatos/contatos.component';
 import { LoginComponent } from './views/login/login.component';
 import { AdminGuard } from './services/admin/admin.guard';
+import { SobreComponent } from './views/sobre/sobre.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,11 @@ const routes: Routes = [
     component: ContatosComponent,
     data: { title: 'Meus Contatos' },
     canActivate: [AdminGuard]
+  },
+  {
+    path: 'sobre',
+    component: SobreComponent,
+    data: { title: 'Sobre o site' }
   },
   {
     path: '',

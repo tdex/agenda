@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { firebase } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +16,11 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
 import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/login/login.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { SobreComponent } from './views/sobre/sobre.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { OrderModule } from 'ngx-order-pipe';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -25,7 +31,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     ModalComponent,
     PageNotFoundComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    SobreComponent
   ],
   imports: [
     FormsModule,
@@ -34,7 +41,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AppRoutingModule,
     AngularFireModule.initializeApp(firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule,
+    NgxMaskModule.forRoot(options),
+    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

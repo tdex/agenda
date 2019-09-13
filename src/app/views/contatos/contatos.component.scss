@@ -1,0 +1,17 @@
+.accordion {
+  .card-header {
+    cursor: pointer;
+  }
+
+  .card-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  span {
+    display: inline-block;
+  }
+
+  .title {
+    font-weight: bolder;
+  }
+}

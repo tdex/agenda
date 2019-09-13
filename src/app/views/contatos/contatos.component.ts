@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Contato } from 'src/app/model/contato.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Endereco } from 'src/app/model/endereco.model';
 import { ContatoService } from 'src/app/services/contato/contato.service';
 import { Observable } from 'rxjs';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 @Component({
   selector: 'app-contatos',
@@ -13,10 +14,12 @@ import { Observable } from 'rxjs';
 export class ContatosComponent implements OnInit {
   formContato: FormGroup;
   contatoList: Observable<any[]>;
+  estadosList: object;
 
-  constructor(private formBuilder: FormBuilder, private contatoService: ContatoService) {
+  constructor(private formBuilder: FormBuilder, private contatoService: ContatoService, private utilsService: UtilsService) {
     this.createForm(new Contato());
     this.getContatos();
+    this.getEstados();
   }
 
   ngOnInit() { }
@@ -25,9 +28,9 @@ export class ContatosComponent implements OnInit {
     contato.endereco = new Endereco();
 
     this.formContato = this.formBuilder.group({
-      nome: [contato.nome],
+      nome: [contato.nome, Validators.required],
       photo: [contato.photo],
-      telefone: [contato.telefone],
+      telefone: [contato.telefone, Validators.required],
       endereco: this.formBuilder.group({
         logradouro: [contato.endereco.logradouro],
         cidade: [contato.endereco.cidade],
@@ -44,6 +47,12 @@ export class ContatosComponent implements OnInit {
 
   getContatos() {
     this.contatoService.getContatos().then(data => this.contatoList = data);
+  }
+
+  getEstados() {
+    this.utilsService.getEstados().subscribe(data => {
+      this.estadosList = data;
+    });
   }
 
 }

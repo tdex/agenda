@@ -1,6 +1,6 @@
 <p>
     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cadastro" aria-expanded="false"
-        aria-controls="cadastro">Novo</button>
+        aria-controls="cadastro">Adicionar</button>
 </p>
 <div class="collapse mb-3" id="cadastro">
     <div class="card card-body">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputTelefone">Telefone</label>
-                    <input type="tel" class="form-control" id="inputTelefone" formControlName="telefone" placeholder="(81)99999-4444" required>
+                    <input type="tel" class="form-control" id="inputTelefone" formControlName="telefone" placeholder="(81)99999-4444" mask="(00) 00000-0000" required>
                 </div>
             </div>
 
@@ -30,42 +30,39 @@
                         <label for="inputEstado">Estado</label>
                         <select id="inputEstado" formControlName="estado" class="form-control">
                             <option selected disabled>Selecione</option>
-                            <option>...</option>
+                            <option *ngFor="let item of estadosList | orderBy:'nome'">{{item.nome}}</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputCep">CEP</label>
-                        <input type="text" class="form-control" id="inputCep" formControlName="cep">
+                        <input type="text" class="form-control" id="inputCep" formControlName="cep" mask="00000-000">
                     </div>
                 </div>
             </div>
             
-            <button type="submit" class="btn btn-primary" (click)="cadastrar()">Cadastrar</button>
+            <button type="submit" class="btn btn-primary" (click)="cadastrar()" [disabled]='formContato.invalid'>Cadastrar</button>
         </form>
     </div>
 </div>
 
 
 <div class="accordion" id="accordionExample">
-    <div class="card" *ngFor="let item of contatoList | async; let i = index">
-        <div class="card-header" [id]="i">
-            <h2 class="mb-0">
-                <!-- <img src="..." alt="..." class="rounded-circle"> -->
-                <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target="#card{{i}}"
-                    aria-expanded="true" attr.aria-controls="card{{i}}">
-                    {{item.nome}}
-                </button>
-            </h2>
+    <div class="card" *ngFor="let item of contatoList | async | orderBy:'nome'; let i = index">
+        <div class="card-header" [id]="i" data-toggle="collapse" attr.data-target="#card{{i}}"
+        aria-expanded="true" attr.aria-controls="card{{i}}">
+            <!-- <img src="..." alt="..." class="rounded-circle"> -->
+            <span class="mb-0 title float-left">{{item.nome}}</span>
+            <span class="float-right">{{item.telefone | mask: '(00) 00000-0000'}}</span>
         </div>
 
         <div id="card{{i}}" class="collapse" attr.aria-labelledby="card{{i}}" data-parent="#accordionExample">
             <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <p *ngIf="item.nome"><strong>Nome: </strong>{{item.nome}}</p>
+                <p *ngIf="item.telefone"><strong>Telefone: </strong>{{item.telefone | mask: '(00) 00000-0000'}}</p>
+                <p *ngIf="item.endereco.logradouro"><strong>Logradouro: </strong>{{item.endereco.logradouro}}</p>
+                <p *ngIf="item.endereco.cidade"><strong>Cidade: </strong>{{item.endereco.cidade}}</p>
+                <p *ngIf="item.endereco.estado"><strong>Estado: </strong>{{item.endereco.estado}}</p>
+                <p *ngIf="item.endereco.cep"><strong>CEP: </strong>{{item.endereco.cep | mask: '00000-000'}}</p>
             </div>
         </div>
     </div>

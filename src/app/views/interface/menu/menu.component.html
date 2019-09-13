@@ -7,8 +7,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" *ngIf="authService.isLoggedIn" routerLink="/home">Home</a>
+                <!-- <a class="nav-item nav-link active" *ngIf="authService.isLoggedIn" routerLink="/home">Home</a> -->
                 <a class="nav-item nav-link" *ngIf="authService.isLoggedIn" routerLink="/contatos">Contatos</a>
+                <a class="nav-item nav-link" routerLink="/sobre">Sobre</a>
 
                 <a class="nav-item nav-link cpointer" *ngIf="authService.isLoggedIn" (click)="authService.logout()">Sair</a>
             </div>
