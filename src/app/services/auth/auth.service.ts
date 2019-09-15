@@ -18,7 +18,7 @@ export class AuthService {
   };
 
   constructor(public afAuth: AngularFireAuth, public firestore: AngularFirestore, public router: Router, public location: Location,
-              public ngzone: NgZone) {
+    public ngzone: NgZone) {
     this.afAuth.auth.languageCode = 'pt';
     this.afAuth.authState.subscribe(user => {
       if (user) {
@@ -44,7 +44,10 @@ export class AuthService {
   }
 
   async loginGoogle() {
-    await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(response => {
+    const provider = new auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    await this.afAuth.auth.signInWithPopup(provider).then(response => {
       if (response.additionalUserInfo.isNewUser) {
         this.addUser(response.user, response.additionalUserInfo.providerId);
       }
